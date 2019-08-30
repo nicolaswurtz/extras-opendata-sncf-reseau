@@ -8,14 +8,16 @@ Télécharger au format CSV
 ## Sources utilisées
 
 Une source unique est le fichier de formes des lignes, en GeoJSON avec PK de début et PK de fin, qui contient l'ensemble des vecteurs (lignes droites) formant une ligne ferroviaire.
-https://data.sncf.com/explore/dataset/formes-des-lignes-du-rfn/table/
+
+Version du 22/05/2018 17:51 : https://data.sncf.com/explore/dataset/formes-des-lignes-du-rfn/table/
+
 
 ### Sources de « correction »
 
 Ces sources sont utiles à la correction de positionnement de PK par rapport à des objets placés sur la ligne.
 
-https://data.sncf.com/explore/dataset/liste-des-passages-a-niveau
-https://data.sncf.com/explore/dataset/liste-des-gares
+Version du 13/04/2018 07:54 : https://data.sncf.com/explore/dataset/liste-des-passages-a-niveau
+Version du 24/07/2019 15:07 : https://data.sncf.com/explore/dataset/liste-des-gares
 
 _Bien qu'étant nettement plus nombreux, la liste des signaux a dû être écartée en raison du trop grand nombre de corrections entraînant des comportements aléatoires._
 
