@@ -2,8 +2,9 @@
 
 Données GeoJSON &amp; CSV des points kilométriques et hectométriques (PK) du réseau ferroviaire français, interpolées grâce aux données opendata de SNCF Réseau.
 
-Télécharger au format GeoJSON
-Télécharger au format CSV
+[Télécharger au format GeoJSON](liste-des-pks.csv.zip)
+
+[Télécharger au format CSV](liste-des-pks.geojson.zip)
 
 ## Sources utilisées
 
@@ -17,9 +18,13 @@ Version du 22/05/2018 17:51 : https://data.sncf.com/explore/dataset/formes-des-l
 Ces sources sont utiles à la correction de positionnement de PK par rapport à des objets placés sur la ligne.
 
 Version du 13/04/2018 07:54 : https://data.sncf.com/explore/dataset/liste-des-passages-a-niveau
+
 Version du 24/07/2019 15:07 : https://data.sncf.com/explore/dataset/liste-des-gares
 
 _Bien qu'étant nettement plus nombreux, la liste des signaux a dû être écartée en raison du trop grand nombre de corrections entraînant des comportements aléatoires._
+
+## Limites
+
 
 ## Méthode d'interpolation
 
