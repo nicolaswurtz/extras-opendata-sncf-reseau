@@ -15,21 +15,7 @@ N° | Nom | Description | GeoJSON | CSV
 
 # Détail pour chaque jeu de données
 
-## Liste des quais
-
-Données GeoJSON des quais de gare avec leurs détails, sous forme de vecteurs représentant les quais. En effet, le fichier GeoJSON original propose des points seulement.
-
-[Télécharger au format GeoJSON](liste-des-quais.csv.zip)
-
-### Sources utilisées
-
-Version du 24/07/2019 12:10 : https://data.sncf.com/explore/dataset/liste-des-quais
-
-### Méthodologie
-
-Le fichier d'origine contient deux champs de propriétés c_geo_d et c_geo_f qui représentent les coordonnées de départ et fin de chaque quai. Ces coordonnées sont replacées dans un objet `lineString`, les propriétés sont filtrées et corrigées (notamment les PK sont transformés en nombres flottants et arrondis à une décimale), amputées des éléments non nécessaires.
-
-## Liste des PKs
+## 1. Liste des PKs
 
 Données GeoJSON &amp; CSV des points kilométriques et hectométriques (PK) du réseau ferroviaire français, interpolées grâce aux données opendata de SNCF Réseau.
 
@@ -77,3 +63,17 @@ Par exemple si le premier vecteur va du PK 1.147 au PK 1.967 les PKs nous intér
 On recommence ensuite pour les autres PKs contenus dans l'intervalle.
 
 4. On exporte le tout en GeoJSON dans un fichiers de points avec ligne, pk et coordonnées géographiques.
+
+## 2. Liste des quais
+
+Données GeoJSON des quais de gare avec leurs détails, sous forme de vecteurs représentant les quais. En effet, le fichier GeoJSON original propose des points seulement.
+
+[Télécharger au format GeoJSON](liste-des-quais.csv.zip)
+
+### Sources utilisées
+
+Version du 24/07/2019 12:10 : https://data.sncf.com/explore/dataset/liste-des-quais
+
+### Méthodologie
+
+Le fichier d'origine contient deux champs de propriétés c_geo_d et c_geo_f qui représentent les coordonnées de départ et fin de chaque quai. Ces coordonnées sont replacées dans un objet `lineString`, les propriétés sont filtrées et corrigées (notamment les PK sont transformés en nombres flottants et arrondis à une décimale), amputées des éléments non nécessaires.
