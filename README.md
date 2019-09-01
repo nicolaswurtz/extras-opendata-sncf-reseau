@@ -1,6 +1,6 @@
 > **Avertissement !**
 >
-> Ces données sont publiées _en l'état_ sans garantie de contenu ni de suivi. Elles sont intégralement fabriquées, transformées, à partir des jeux de données placés en OpenData par SNCF et SNCF Réseau (cf https://data.sncf.com) et sous [licence ODbL](https://opendatacommons.org/licenses/odbl/1.0/index.html).
+> Ces données sont publiées _en l'état_ sans garantie de contenu ni de suivi, à utiliser à vos risques et périls. Elles sont intégralement fabriquées, transformées, à partir des jeux de données placés en OpenData par SNCF et SNCF Réseau (cf https://data.sncf.com) et sous [licence ODbL](https://opendatacommons.org/licenses/odbl/1.0/index.html).
 >
 > Ces données concernent exclusivement le RFN (Réseau Ferroviaire National français), dont SNCF Réseau a la charge.
 
@@ -11,9 +11,9 @@ Ce dépôt contient à date :
 N° | Nom | Description | GeoJSON | CSV
 -- | --- | ----------- | ------- | ---
 1 | **PKs** | Liste des points kilométriques avec leur position géographique, fichier reconstitué, extrapolé. | [GeoJSON](liste-des-pks.geojson.zip) | [CSV](liste-des-pks.csv.zip)
-2 | **QUAIS** | Liste des quais au format geojson **en vecteurs** (transformation du fichier d'origine en points. | [GeoJSON](liste-des-quais.geojson.zip) |
+2 | ~~**QUAIS**~~ | ~~Liste des quais au format geojson **en vecteurs** (transformation du fichier d'origine en points.~~ Les données sont pour l'instant inexploitables (cf détails). | [GeoJSON](liste-des-quais.geojson.zip) |
 
-# Détail pour chaque jeu de données
+# Détails pour chaque jeu de données
 
 ## 1. Liste des PKs
 
@@ -65,6 +65,8 @@ On recommence ensuite pour les autres PKs contenus dans l'intervalle.
 4. On exporte le tout en GeoJSON dans un fichiers de points avec ligne, pk et coordonnées géographiques.
 
 ## 2. Liste des quais
+
+> **Note de publication 01/09/2019** Les données sont hélas trop peu précises et parfois manquantes. Des quais se positionnent à plusieurs centaines de mètres de leur position réelle, voire se croisent. En attente d'un correctif.
 
 Données GeoJSON des quais de gare avec leurs détails, sous forme de vecteurs représentant les quais. En effet, le fichier GeoJSON original propose des points seulement.
 
