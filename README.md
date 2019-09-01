@@ -10,7 +10,7 @@ Ce dépôt contient à date :
 
 N° | Nom | Description | GeoJSON | CSV
 -- | --- | ----------- | ------- | ---
-1 | **PKs** | Liste des points kilométriques avec leur position géographique, fichier reconstitué, extrapolé. | [GeoJSON](liste-des-pks.csv.zip) | [CSV](liste-des-pks.geojson.zip)
+1 | **PKs** | Liste des points kilométriques avec leur position géographique, fichier reconstitué, extrapolé. | [GeoJSON](liste-des-pks.geojson.zip) | [CSV](liste-des-pks.csv.zip)
 2 | **QUAIS** | Liste des quais au format geojson **en vecteurs** (transformation du fichier d'origine en points. | [GeoJSON](liste-des-quais.geojson.zip) |
 
 # Détail pour chaque jeu de données
