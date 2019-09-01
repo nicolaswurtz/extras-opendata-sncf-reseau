@@ -8,16 +8,18 @@
 
 Ce dépôt contient à date :
 
-N° | Nom | Description
--- | --- | -----------
-1 | **PKs** | la liste des points kilométriques avec leur position géographique, fichier reconstitué, extrapolé
-2 | **QUAIS** | la liste des quais au format geojson **en vecteurs** (transformation du fichier d'origine en points
+N° | Nom | Description | GeoJSON | CSV
+-- | --- | ----------- | ------- | ---
+1 | **PKs** | Liste des points kilométriques avec leur position géographique, fichier reconstitué, extrapolé. | [GeoJSON](liste-des-pks.csv.zip) | [CSV](liste-des-pks.geojson.zip)
+2 | **QUAIS** | Liste des quais au format geojson **en vecteurs** (transformation du fichier d'origine en points. | [GeoJSON](liste-des-quais.geojson.zip) |
 
 # Détail pour chaque jeu de données
 
 ## Liste des quais
 
 Données GeoJSON des quais de gare avec leurs détails, sous forme de vecteurs représentant les quais. En effet, le fichier GeoJSON original propose des points seulement.
+
+[Télécharger au format GeoJSON](liste-des-quais.csv.zip)
 
 ### Sources utilisées
 
