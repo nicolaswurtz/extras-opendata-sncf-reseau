@@ -27,36 +27,46 @@ Données GeoJSON &amp; CSV des points kilométriques et hectométriques (PK) du 
 
 Une source unique est le fichier de formes des lignes, en GeoJSON avec PK de début et PK de fin, qui contient l'ensemble des vecteurs (lignes droites) formant une ligne ferroviaire.
 
+Ce fichier (version GeoJSON) contient la liste des coordonnées (latitude, longitude) de chaque vecteur qui forme la ligne (`LineString`) avec un troisième élément qui correspond au point kilométrique (en mètres) lié à cette position — que j'avais interprété comme étant une altitude (comme cela est logiquement prévu dans la norme GeoJSON).
+
 Version du 22/05/2018 17:51 : https://data.sncf.com/explore/dataset/formes-des-lignes-du-rfn/table/
-
-
-### Sources de « correction »
-
-Ces sources sont utiles à la correction de positionnement de PK par rapport à des objets placés sur la ligne.
-
-Version du 13/04/2018 07:54 : https://data.sncf.com/explore/dataset/liste-des-passages-a-niveau
-
-Version du 24/07/2019 15:07 : https://data.sncf.com/explore/dataset/liste-des-gares
-
-_Bien qu'étant nettement plus nombreux, la liste des signaux a dû être écartée en raison du trop grand nombre de corrections entraînant des comportements aléatoires._
 
 ### Limites constatées
 
-Les formes ne sont pas toujours précises quant à la réalité du terrain, de plus les points kilométriques de début ne sont parfois pas justes (relatif notamment à l'erreur de coordonnée) ce qui entraîne des décalages notamment en début de ligne.
-De façon à pallier ces erreurs, les coordonnées sont corrigées avec des points appartenant à ces lignes (gares, pn, cf plus bas). Si le résultat devient plus satisfaisant des erreurs restent visibles, ne dépassant pas 100m à 200m en général, mais pouvant atteindre 800m dans certains cas, rares.
+Les formes ne sont pas toujours précises quant à la réalité du terrain, de plus les points kilométriques ne sont parfois pas justes (relatif souvent à l'erreur de coordonnée) ce qui entraîne des décalages notamment en début de ligne.
 
-Les données sont ainsi proposées comme un effort « au mieux », en attendant un fichier de formes corrigé, voire un fichier des PKs émanant directement de SNCF Réseau.
+Les données sont ainsi proposées comme un effort « au mieux », en attendant un fichier de formes corrigé.
 
 ### Méthode d'interpolation
 
-1. On transforme le fichier source des formes de ligne en une liste de PK connus, en prenant chaque vecteur à la suite avec ses coordonnées géographiques. Grâce au PK initial connu on calcule les suivants par la distance entre les coordonnées de chaque vecteur, et ainsi de suite.  
-Par exemple, si le premier point du fichier de formes pour une ligne donnée est le PK 1.147, on calcule la distance en ligne droite jusqu'au point suivant du fichier pour cette ligne (fin du vecteur) qui est par exemple 820m. Le PK de ce point est donc 1.967, et ainsi de suite.
+1. ~~On transforme le fichier source des formes de ligne en une liste de PK connus, en prenant chaque vecteur à la suite avec ses coordonnées géographiques. Grâce au PK initial connu on calcule les suivants par la distance entre les coordonnées de chaque vecteur, et ainsi de suite.  
+Par exemple, si le premier point du fichier de formes pour une ligne donnée est le PK 1.147, on calcule la distance en ligne droite jusqu'au point suivant du fichier pour cette ligne (fin du vecteur) qui est par exemple 820m. Le PK de ce point est donc 1.967, et ainsi de suite.~~  
+Devenu obsolète : le fichier de forme contient déjà les PKs de chaque coordonnée stocké en mètres dans la valeur dédiée à l'altitude.  
+Par exemple :  
+```json
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        5.509821499334702,
+                        43.68221085014309,
+                        375989
+                    ],
+...
+```
+Ici, nous avons une coordonnée de longitude `5.509821499334702`, latitude `5.509821499334702`, avec comme point kilométrique 375+989 (ou 375,989km suivant la notation utilisée).
 
-2. Pendant cette phase, on tente de corriger les PK de début de vecteurs ainsi trouvés avec la position des éventuels objets positionnés sur le vecteur en question (donc entre les deux PKs) venant d'autres fichiers (gares et passages à niveau ici).
+2. ~~Pendant cette phase, on tente de corriger les PK de début de vecteurs ainsi trouvés avec la position des éventuels objets positionnés sur le vecteur en question (donc entre les deux PKs) venant d'autres fichiers (gares et passages à niveau ici).
 Pour cela, on calcule la différence de la distance entre
    - le PK de début du vecteur et celui de l'objet contenu dans celui-ci
    - la distance réelle entre les coordonnées géographiques de début du vecteur et celles de l'objet
-On obtient ainsi **la valeur de correction**, qu'on soustrait à celle du PK de début avant le calcul du PK de fin de vecteur du point 1.
+On obtient ainsi **la valeur de correction**, qu'on soustrait à celle du PK de début avant le calcul du PK de fin de vecteur du point 1.~~  
+Devenu obsolète également.
 
 3. On reparcourt l'ensemble des lignes et PKs ainsi trouvés et corrigés pour rechercher les PKs hectométriques par interpolation entre les début et fins de vecteur.  
 Par exemple si le premier vecteur va du PK 1.147 au PK 1.967 les PKs nous intéressant sont les PK 1.2 1.3 1.4 1.5 1.6 1.7 1.8 et 1.9. On détermine alors l'orientation du vecteur grâce aux deux coordonnées de début et fin de celui-ci, puis la distance entre le PK de début et le premier PK intéressant (ici 53m pour aller de 1.147 à 1.200), et avec les coordonnées de départ, l'orientation et la distance, on obtient les coordonnées du PK qui nous intéresse.  
