@@ -11,7 +11,8 @@ Ce dépôt contient à date :
 N° | Nom | Description | GeoJSON | CSV
 -- | --- | ----------- | ------- | ---
 1 | **PKs** | Liste des points kilométriques avec leur position géographique, fichier reconstitué, extrapolé. | [GeoJSON](liste-des-pks.geojson.zip) | [CSV](liste-des-pks.csv.zip)
-2 | ~~**QUAIS**~~ | ~~Liste des quais au format geojson **en vecteurs** (transformation du fichier d'origine en points.~~ Les données sont pour l'instant inexploitables (cf détails). | [GeoJSON](liste-des-quais.geojson.zip) |
+2 | **VITESSES** | Vitesses des lignes sous forme de vecteurs (`LineString`) | [GeoJSON](lignes-vitesses.geojson.zip) |
+3 | ~~**QUAIS**~~ | ~~Liste des quais au format geojson **en vecteurs** (transformation du fichier d'origine en points.~~ Les données sont pour l'instant inexploitables (cf détails). | [GeoJSON](liste-des-quais.geojson.zip) |
 
 # Détails pour chaque jeu de données
 
@@ -61,12 +62,12 @@ Par exemple :
 ```
 Ici, nous avons une coordonnée de longitude `5.509821499334702`, latitude `5.509821499334702`, avec comme point kilométrique 375+989 (ou 375,989km suivant la notation utilisée).
 
-2. ~~Pendant cette phase, on tente de corriger les PK de début de vecteurs ainsi trouvés avec la position des éventuels objets positionnés sur le vecteur en question (donc entre les deux PKs) venant d'autres fichiers (gares et passages à niveau ici).
-Pour cela, on calcule la différence de la distance entre
-   - le PK de début du vecteur et celui de l'objet contenu dans celui-ci
-   - la distance réelle entre les coordonnées géographiques de début du vecteur et celles de l'objet
-On obtient ainsi **la valeur de correction**, qu'on soustrait à celle du PK de début avant le calcul du PK de fin de vecteur du point 1.~~  
-Devenu obsolète également.
+2. Devenu obsolète également.
+~~Pendant cette phase, on tente de corriger les PK de début de vecteurs ainsi trouvés avec la position des éventuels objets positionnés sur le vecteur en question (donc entre les deux PKs) venant d'autres fichiers (gares et passages à niveau ici).~~
+~~Pour cela, on calcule la différence de la distance entre~~
+   - ~~le PK de début du vecteur et celui de l'objet contenu dans celui-ci~~
+   - ~~la distance réelle entre les coordonnées géographiques de début du vecteur et celles de l'objet~~
+~~On obtient ainsi **la valeur de correction**, qu'on soustrait à celle du PK de début avant le calcul du PK de fin de vecteur du point 1.~~  
 
 3. On reparcourt l'ensemble des lignes et PKs ainsi trouvés et corrigés pour rechercher les PKs hectométriques par interpolation entre les début et fins de vecteur.  
 Par exemple si le premier vecteur va du PK 1.147 au PK 1.967 les PKs nous intéressant sont les PK 1.2 1.3 1.4 1.5 1.6 1.7 1.8 et 1.9. On détermine alors l'orientation du vecteur grâce aux deux coordonnées de début et fin de celui-ci, puis la distance entre le PK de début et le premier PK intéressant (ici 53m pour aller de 1.147 à 1.200), et avec les coordonnées de départ, l'orientation et la distance, on obtient les coordonnées du PK qui nous intéresse.  
@@ -74,7 +75,21 @@ On recommence ensuite pour les autres PKs contenus dans l'intervalle.
 
 4. On exporte le tout en GeoJSON dans un fichiers de points avec ligne, pk et coordonnées géographiques.
 
-## 2. Liste des quais
+## 2. Vitesses des lignes, en vecteurs
+
+Le problème du jeu de donnée fourni par SNCF Réseau est qu'il présente les vitesses sous forme de points (début et fin, voire seulement début dans le GeoJSON). Le fichier proposé ici est calqué sur le fichier de formes de lignes pour représenter les vitesses _avec_ la ligne sur laquelle elle est définie. Cela permet de visuellement représenter les vitesses sous forme de tronçons, par exemple colorés suivant la vitesse.
+
+[Télécharger au format GeoJSON](lignes-vitesses.csv.zip)
+
+### Sources utilisées
+
+Deux sources simples, le fichier contenant la liste des vitesses pour chaque tronçon, et le fichier contenu les formes des lignes.
+
+Version du 24/07/2019 12:20 : https://data.sncf.com/explore/dataset/vitesse-maximale-nominale-sur-ligne/
+
+Version du 22/05/2018 17:51 : https://data.sncf.com/explore/dataset/formes-des-lignes-du-rfn
+
+## 3. Liste des quais
 
 > **Note de publication 01/09/2019** Les données sont hélas trop peu précises et parfois manquantes. Des quais se positionnent à plusieurs centaines de mètres de leur position réelle, voire se croisent. En attente d'un correctif.
 
