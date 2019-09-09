@@ -12,7 +12,8 @@ N° | Nom | Description | GeoJSON | CSV
 -- | --- | ----------- | ------- | ---
 1 | **PKs** | Liste des points kilométriques avec leur position géographique, fichier reconstitué, extrapolé. | [GeoJSON](liste-des-pks.geojson.zip) | [CSV](liste-des-pks.csv.zip)
 2 | **VITESSES** | Vitesses des lignes sous forme de vecteurs (`LineString`) | [GeoJSON](lignes-vitesses.geojson.zip) |
-3 | ~~**QUAIS**~~ | ~~Liste des quais au format geojson **en vecteurs** (transformation du fichier d'origine en points.~~ Les données sont pour l'instant inexploitables (cf détails). | [GeoJSON](liste-des-quais.geojson.zip) |
+3 | **TUNNELS** | Tunnels sous forme de vecteurs (`LineString`) | [GeoJSON](lignes-tunnels.geojson.zip) |
+4 | ~~**QUAIS**~~ | ~~Liste des quais au format geojson **en vecteurs** (transformation du fichier d'origine en points.~~ Les données sont pour l'instant inexploitables (cf détails). | [GeoJSON](liste-des-quais.geojson.zip) |
 
 # Détails pour chaque jeu de données
 
@@ -57,8 +58,12 @@ Par exemple :
                         5.509821499334702,
                         43.68221085014309,
                         375989
-                    ],
-...
+                    ]
+                ]
+            }
+        }
+    ]
+}                    
 ```
 Ici, nous avons une coordonnée de longitude `5.509821499334702`, latitude `5.509821499334702`, avec comme point kilométrique 375+989 (ou 375,989km suivant la notation utilisée).
 
@@ -79,17 +84,31 @@ On recommence ensuite pour les autres PKs contenus dans l'intervalle.
 
 Le problème du jeu de donnée fourni par SNCF Réseau est qu'il présente les vitesses sous forme de points (début et fin, voire seulement début dans le GeoJSON). Le fichier proposé ici est calqué sur le fichier de formes de lignes pour représenter les vitesses _avec_ la ligne sur laquelle elle est définie. Cela permet de visuellement représenter les vitesses sous forme de tronçons, par exemple colorés suivant la vitesse.
 
-[Télécharger au format GeoJSON](lignes-vitesses.csv.zip)
+[Télécharger au format GeoJSON](lignes-vitesses.geojson.zip)
 
 ### Sources utilisées
 
-Deux sources simples, le fichier contenant la liste des vitesses pour chaque tronçon, et le fichier contenu les formes des lignes.
+Deux sources, le fichier contenant la liste des vitesses pour chaque tronçon, et le fichier contenu les formes des lignes.
 
 Version du 24/07/2019 12:20 : https://data.sncf.com/explore/dataset/vitesse-maximale-nominale-sur-ligne/
 
 Version du 22/05/2018 17:51 : https://data.sncf.com/explore/dataset/formes-des-lignes-du-rfn
 
-## 3. Liste des quais
+## 3. Tunnels des lignes, en vecteurs
+
+Le problème du jeu de donnée fourni par SNCF Réseau est qu'il présente les tunnels sous forme de points, avec le début (PK & coordonnées) et sa longueur. Le fichier proposé ici est calqué sur le fichier de formes de lignes pour représenter les tunnels le long de la ligne sur laquelle il est situé. Cela permet de visuellement représenter les tunnels sous forme de tronçons.
+
+[Télécharger au format GeoJSON](lignes-tunnels.geojson.zip)
+
+### Sources utilisées
+
+Deux sources, le fichier contenant la liste des vitesses pour chaque tronçon, et le fichier contenu les formes des lignes.
+
+Version du 24/07/2019 15:55 : https://data.sncf.com/explore/dataset/liste-des-tunnels
+
+Version du 22/05/2018 17:51 : https://data.sncf.com/explore/dataset/formes-des-lignes-du-rfn
+
+## 4. Liste des quais
 
 > **Note de publication 01/09/2019** Les données sont hélas trop peu précises et parfois manquantes. Des quais se positionnent à plusieurs centaines de mètres de leur position réelle, voire se croisent. En attente d'un correctif.
 
