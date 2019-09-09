@@ -13,7 +13,7 @@ N° | Nom | Description | GeoJSON | CSV
 1 | **PKs** | Liste des points kilométriques avec leur position géographique, fichier reconstitué, extrapolé. | [GeoJSON](liste-des-pks.geojson.zip) | [CSV](liste-des-pks.csv.zip)
 2 | **VITESSES** | Vitesses des lignes sous forme de vecteurs (`LineString`) | [GeoJSON](lignes-vitesses.geojson.zip) |
 3 | **TUNNELS** | Tunnels sous forme de vecteurs (`LineString`) | [GeoJSON](lignes-tunnels.geojson.zip) |
-4 | ~~**QUAIS**~~ | ~~Liste des quais au format geojson **en vecteurs** (transformation du fichier d'origine en points.~~ Les données sont pour l'instant inexploitables (cf détails). | [GeoJSON](liste-des-quais.geojson.zip) |
+4 | ~~**QUAIS**~~ | ~~Liste des quais au format geojson **en vecteurs** (transformation du fichier d'origine en points.~~ Les données sont pour l'instant inexploitables (cf détails). | [GeoJSON](liste-des-quais.linestrings.geojson.zip) |
 
 # Détails pour chaque jeu de données
 
@@ -114,7 +114,7 @@ Version du 22/05/2018 17:51 : https://data.sncf.com/explore/dataset/formes-des-l
 
 Données GeoJSON des quais de gare avec leurs détails, sous forme de vecteurs représentant les quais. En effet, le fichier GeoJSON original propose des points seulement.
 
-[Télécharger au format GeoJSON](liste-des-quais.csv.zip)
+[Télécharger au format GeoJSON](liste-des-quais.linestrings.geojson.zip)
 
 ### Sources utilisées
 
