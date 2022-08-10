@@ -21,9 +21,9 @@ N° | Nom | Description | GeoJSON | CSV
 
 Données GeoJSON &amp; CSV des points kilométriques et hectométriques (PK) du réseau ferroviaire français, interpolées grâce aux données opendata de SNCF Réseau.
 
-[Télécharger au format GeoJSON](liste-des-pks.csv.zip)
+[Télécharger au format GeoJSON](liste-des-pks.geojson.zip)
 
-[Télécharger au format CSV](liste-des-pks.geojson.zip)
+[Télécharger au format CSV](liste-des-pks.csv.zip)
 
 ### Sources utilisées
 
