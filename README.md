@@ -3,6 +3,8 @@
 > Ces données sont publiées _en l'état_ sans garantie de contenu ni de suivi, à utiliser à vos risques et périls. Elles sont intégralement fabriquées, transformées, à partir des jeux de données placés en OpenData par SNCF et SNCF Réseau (cf https://data.sncf.com) et sous [licence ODbL](https://opendatacommons.org/licenses/odbl/1.0/index.html).
 >
 > Ces données concernent exclusivement le RFN (Réseau Ferroviaire National français), dont SNCF Réseau a la charge.
+>
+> Elles sont essentiellement utilisées pour mon projet personnel de cartographie du réseau ferré français et du positionnement des trains en temps réel https://carto.graou.info
 
 # Contenu du dépôt
 
@@ -10,40 +12,27 @@ Ce dépôt contient à date :
 
 N° | Nom | Description | GeoJSON | CSV
 -- | --- | ----------- | ------- | ---
-1 | **PKs** | Liste des points kilométriques avec leur position géographique, fichier reconstitué, extrapolé. | [GeoJSON](liste-des-pks.geojson.zip) | [CSV](liste-des-pks.csv.zip)
+1 | **PKs** | Liste des points kilométriques à la ligne, avec leur position géographique, leurs altitudes et la vitesse max de la ligne à cet endroit, fichier reconstitué, extrapolé. | | [CSV](pks.csv.zip) |
 2 | **VITESSES** | Vitesses des lignes sous forme de vecteurs (`LineString`) | [GeoJSON](lignes-vitesses.geojson.zip) |
 3 | **TUNNELS** | Tunnels sous forme de vecteurs (`LineString`) | [GeoJSON](lignes-tunnels.geojson.zip) |
-4 | ~~**QUAIS**~~ | ~~Liste des quais au format geojson **en vecteurs** (transformation du fichier d'origine en points.~~ Les données sont pour l'instant inexploitables (cf détails). | [GeoJSON](liste-des-quais.linestrings.geojson.zip) |
+3 | **GARES** | Gares et points remarquables | [CSV](localites.csv.zip) | [GeoJSON](localites.geojson.zip) |
 
 # Détails pour chaque jeu de données
 
 ## 1. Liste des PKs
 
-Données GeoJSON &amp; CSV des points kilométriques et hectométriques (PK) du réseau ferroviaire français, interpolées grâce aux données opendata de SNCF Réseau.
+Données CSV des points kilométriques et hectométriques (PK) du réseau ferroviaire français, interpolées grâce aux données opendata de SNCF Réseau.
 
-[Télécharger au format GeoJSON](liste-des-pks.csv.zip)
+[Télécharger au format CSV](pks.csv.zip)
 
-[Télécharger au format CSV](liste-des-pks.geojson.zip)
+### Sources et méthodes
 
-### Sources utilisées
+#### PK
+Une source unique est le fichier de formes des lignes, en GeoJSON avec PK de début et PK de fin, qui contient l'ensemble des vecteurs (lignes droites) formant une ligne ferroviaire. Ce fichier (version GeoJSON), qui n'existe plus aujourd'hui avec les PK, contenait la liste des coordonnées (latitude, longitude) de chaque vecteur qui forme la ligne (`LineString`) avec un troisième élément qui correspond au point kilométrique (en mètres) lié à cette position — que j'avais interprété comme étant une altitude (comme cela est logiquement prévu dans la norme GeoJSON).
+Cette donnée n'est plus disponible dans https://data.sncf.com/explore/dataset/formes-des-lignes-du-rfn/table/
 
-Une source unique est le fichier de formes des lignes, en GeoJSON avec PK de début et PK de fin, qui contient l'ensemble des vecteurs (lignes droites) formant une ligne ferroviaire.
+Le fichier de formes des lignes de l'opendata contenait les PK de chaque point (ce n'est plus le cas désormais).
 
-Ce fichier (version GeoJSON) contient la liste des coordonnées (latitude, longitude) de chaque vecteur qui forme la ligne (`LineString`) avec un troisième élément qui correspond au point kilométrique (en mètres) lié à cette position — que j'avais interprété comme étant une altitude (comme cela est logiquement prévu dans la norme GeoJSON).
-
-Version du 22/05/2018 17:51 : https://data.sncf.com/explore/dataset/formes-des-lignes-du-rfn/table/
-
-### Limites constatées
-
-Les formes ne sont pas toujours précises quant à la réalité du terrain, de plus les points kilométriques ne sont parfois pas justes (relatif souvent à l'erreur de coordonnée) ce qui entraîne des décalages notamment en début de ligne.
-
-Les données sont ainsi proposées comme un effort « au mieux », en attendant un fichier de formes corrigé.
-
-### Méthode d'interpolation
-
-1. ~~On transforme le fichier source des formes de ligne en une liste de PK connus, en prenant chaque vecteur à la suite avec ses coordonnées géographiques. Grâce au PK initial connu on calcule les suivants par la distance entre les coordonnées de chaque vecteur, et ainsi de suite.  
-Par exemple, si le premier point du fichier de formes pour une ligne donnée est le PK 1.147, on calcule la distance en ligne droite jusqu'au point suivant du fichier pour cette ligne (fin du vecteur) qui est par exemple 820m. Le PK de ce point est donc 1.967, et ainsi de suite.~~  
-Devenu obsolète : le fichier de forme contient déjà les PKs de chaque coordonnée stocké en mètres dans la valeur dédiée à l'altitude.  
 Par exemple :  
 ```json
 {
@@ -67,18 +56,30 @@ Par exemple :
 ```
 Ici, nous avons une coordonnée de longitude `5.509821499334702`, latitude `5.509821499334702`, avec comme point kilométrique 375+989 (ou 375,989km suivant la notation utilisée).
 
-2. Devenu obsolète également.
-~~Pendant cette phase, on tente de corriger les PK de début de vecteurs ainsi trouvés avec la position des éventuels objets positionnés sur le vecteur en question (donc entre les deux PKs) venant d'autres fichiers (gares et passages à niveau ici).~~
-~~Pour cela, on calcule la différence de la distance entre~~
-   - ~~le PK de début du vecteur et celui de l'objet contenu dans celui-ci~~
-   - ~~la distance réelle entre les coordonnées géographiques de début du vecteur et celles de l'objet~~
-~~On obtient ainsi **la valeur de correction**, qu'on soustrait à celle du PK de début avant le calcul du PK de fin de vecteur du point 1.~~  
-
-3. On reparcourt l'ensemble des lignes et PKs ainsi trouvés et corrigés pour rechercher les PKs hectométriques par interpolation entre les début et fins de vecteur.  
+On reparcourt l'ensemble des lignes et PKs ainsi trouvés et corrigés pour rechercher les PKs hectométriques par interpolation entre les début et fins de vecteur.  
 Par exemple si le premier vecteur va du PK 1.147 au PK 1.967 les PKs nous intéressant sont les PK 1.2 1.3 1.4 1.5 1.6 1.7 1.8 et 1.9. On détermine alors l'orientation du vecteur grâce aux deux coordonnées de début et fin de celui-ci, puis la distance entre le PK de début et le premier PK intéressant (ici 53m pour aller de 1.147 à 1.200), et avec les coordonnées de départ, l'orientation et la distance, on obtient les coordonnées du PK qui nous intéresse.  
-On recommence ensuite pour les autres PKs contenus dans l'intervalle.
 
-4. On exporte le tout en GeoJSON dans un fichiers de points avec ligne, pk et coordonnées géographiques.
+#### Vitesses
+Pour chaque point hectométrique, on associe la vitesse de la ligne à cet endroit, grâce aux données de https://data.sncf.com/explore/dataset/vitesse-maximale-nominale-sur-ligne/
+
+#### Altimétrie
+Trois colonnes sont proposées :
+
+1. Altitude topographique
+Grâce à https://www.opentopodata.org et les données EU-DEM de L'European Space Agency https://www.eea.europa.eu/data-and-maps/data/copernicus-land-monitoring-service-eu-dem on peut monter un serveur qui renvoie une altitude à partir du couple latitude/longitude ; on peut envoyer des coordonnées en batch, pour les 366000 points hectométriques du réseau ferroviaire, comptez une heure et demi sur une machine raisonnablement puissante.
+
+2. Altitude topographique, corrigée par les tunnels
+Même jeu de données que précédement mais où les zone de tunnels ont été linéarisées entre l'entrée et la sortie pour éviter de tracer l'altitude de la montagne au dessus du tunnel, grâce aux données de https://ressources.data.sncf.com/explore/dataset/liste-des-tunnels
+
+3. Altitude reconstituée avec les déclivités
+SNCF Réseau distribue les déclivités en opendata https://ressources.data.sncf.com/explore/dataset/caracteristique-des-voies-et-declivite/information/ à la voie. Ce qui est un peu compliqué puisque les PKs sont à la ligne. J'ai dû ruser pour obtenir les déclivités successives à la ligne.  
+Ensuite, j'ai redistribué les déclivités par pas de 100m histoire de coller à mes PKs hectométriques, puis j'ai pris l'altitude du premier point de chaque ligne, altitude trouvée pendant le point 1 et j'ai appliqué les coefficients de rampes et de pente au fil des points.
+
+### Limites constatées
+
+- Les formes ne sont pas toujours précises quant à la réalité du terrain, de plus les points kilométriques ne sont parfois pas justes (relatif souvent à l'erreur de coordonnée) ce qui entraîne des décalages notamment en début de ligne. Les données sont ainsi proposées comme un effort « au mieux », en attendant un fichier de formes corrigé.
+- On constate des écarts au niveau de l'altimétrie notamment à haute altitude. Écarts qu'on retrouve parfois sur les lignes, mais pas systématiquement, ce qui ne permet de définir si l'erreur vient de mon algo ou des données sources.
+
 
 ## 2. Vitesses des lignes, en vecteurs
 
@@ -108,18 +109,15 @@ Version du 24/07/2019 15:55 : https://data.sncf.com/explore/dataset/liste-des-tu
 
 Version du 22/05/2018 17:51 : https://data.sncf.com/explore/dataset/formes-des-lignes-du-rfn
 
-## 4. Liste des quais
+## 4. Gares, points remarquables
 
-> **Note de publication 01/09/2019** Les données sont hélas trop peu précises et parfois manquantes. Des quais se positionnent à plusieurs centaines de mètres de leur position réelle, voire se croisent. En attente d'un correctif.
+Il s'agît d'un fichier que je tiens à jour depuis 10 ans, agrégeant un maximum de données opendata, qu'elles viennent de SNCF, SNCF Réseau, Wikipedia/wikidata, Chemins de Fer Corse, ou même Trainline.
+Il se veut le plus complet possible mais il n'est pas parfait, n'hésitez pas à proposer des corrections.
 
-Données GeoJSON des quais de gare avec leurs détails, sous forme de vecteurs représentant les quais. En effet, le fichier GeoJSON original propose des points seulement.
+[Télécharger au format CSV](localites.csv.zip) [Télécharger au format GeoJSON](localites.geojson.zip)
 
-[Télécharger au format GeoJSON](liste-des-quais.linestrings.geojson.zip)
+### Anomalies existantes
+- des points avec comme nom de chantier « JON » sont totalement fictifs, ils me servent pour faire les jonctions entre lignes là où il n'y a pas de gare pour la création d'itinéraires topologiques
+- des gares n'avaient pas de trigramme, notamment en Corse, donc j'ai dû... inventer
+- idem pour certains numéro UIC
 
-### Sources utilisées
-
-Version du 24/07/2019 12:10 : https://data.sncf.com/explore/dataset/liste-des-quais
-
-### Méthodologie
-
-Le fichier d'origine contient deux champs de propriétés c_geo_d et c_geo_f qui représentent les coordonnées de départ et fin de chaque quai. Ces coordonnées sont replacées dans un objet `lineString`, les propriétés sont filtrées et corrigées (notamment les PK sont transformés en nombres flottants et arrondis à une décimale), amputées des éléments non nécessaires.
