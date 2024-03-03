@@ -1,10 +1,10 @@
 > **Avertissement !**
 >
-> Ces données sont publiées _en l'état_ sans garantie de contenu ni de suivi, à utiliser à vos risques et périls. Elles sont intégralement fabriquées, transformées, à partir des jeux de données placés en OpenData par SNCF et SNCF Réseau (cf https://data.sncf.com) et sous [licence ODbL](https://opendatacommons.org/licenses/odbl/1.0/index.html).
+> Ces données sont publiées _en l'état_ sans garantie de contenu ni de suivi, à utiliser à vos risques et périls. Elles sont intégralement fabriquées, transformées, à partir des jeux de données placés en OpenData entre autres par SNCF et SNCF Réseau (cf https://data.sncf.com) et sous [licence ODbL](https://opendatacommons.org/licenses/odbl/1.0/index.html), ainsi que des données Wikipédia/Wikidata, des Chemins de Fer Corse et de [Trainline](https://github.com/trainline-eu/stations/blob/master/stations.csv).
 >
-> Ces données concernent exclusivement le RFN (Réseau Ferroviaire National français), dont SNCF Réseau a la charge.
+> Ces données concernent exclusivement les voies ferrées situées en France.
 >
-> Elles sont essentiellement utilisées pour mon projet personnel de cartographie du réseau ferré français et du positionnement des trains en temps réel https://carto.graou.info
+> Elles sont essentiellement utilisées pour mon projet **personnel** de cartographie du réseau ferré français et du positionnement des trains en temps réel https://carto.graou.info
 
 # Contenu du dépôt
 
